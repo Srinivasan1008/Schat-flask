@@ -1,5 +1,6 @@
 from flask import Flask, render_template,redirect,url_for 
 
+
 from wtform_fields import *
 from models import *
 #Configure app
@@ -17,9 +18,11 @@ def index():
     if reg_form.validate_on_submit():
         username = reg_form.username.data
         password = reg_form.password.data
+   #hash password
+        hashed_pswd = pbkdf2_sha256.hash(password)#salts&iteration is taken care
 
         #add user to db
-        user = User(username=username, password=password)
+        user = User(username=username, password=hashed_pswd)
         db.session.add(user)
         db.session.commit()
         return  redirect(url_for('login'))
