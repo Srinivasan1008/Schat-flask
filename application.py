@@ -1,15 +1,20 @@
 from flask import Flask, render_template,redirect,url_for,flash 
 from flask_login import LoginManager,login_user,current_user,login_required,logout_user
-
+from flask_socketio import SocketIO,send,emit
 from wtform_fields import *
 from models import *
 #Configure app
 
 app = Flask(__name__) #instance(standards-webserver gateway interface)
+#app.config['SECRET_KEY'] = 'secret!'
 app.secret_key = 'replace later'
 #configure db
 app.config['SQLALCHEMY_DATABASE_URI']='postgres://rsppnikzkjceam:c85b4480d3a6dd17538c11359ebca2e1b77e634c52e43777024da075dedba7c0@ec2-3-224-165-85.compute-1.amazonaws.com:5432/ddjrmcfnsr110v'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+#intialize flask-socketio
+socketio = SocketIO(app)
 
 #configure flask login
 login = LoginManager(app)
@@ -35,6 +40,7 @@ def index():
         db.session.add(user)
         db.session.commit()
         flash('Registered Successfully.Please login.','success')
+        #print('hi')
         return  redirect(url_for('login'))
     return render_template("index.html",form=reg_form)
 @app.route("/login",methods=['GET','POST'])
@@ -45,6 +51,7 @@ def login():
     if login_form.validate_on_submit():
         user_object = User.query.filter_by(username=login_form.username.data).first()
         login_user(user_object)
+        
         return redirect(url_for('chat'))
 
     return render_template("login.html", form=login_form)
@@ -52,10 +59,10 @@ def login():
 @app.route("/chat",methods=['GET','POST'])
 #@login_required
 def chat():
-    if not current_user.is_authenticated:
-        flash('Please login.','danger')
-        return redirect(url_for('login'))
-    return "Chat with me"
+    #if not current_user.is_authenticated:
+     #   flash('Please login.','danger')
+      #  return redirect(url_for('login'))
+    return render_template('chat.html')
 
 
 @app.route("/logout",methods=['GET'])
@@ -64,5 +71,11 @@ def logout():
     flash('You have logged out successfully','success')
     return redirect(url_for('login'))
 
+@socketio.on('message')
+def message(data):
+    print(f"\n\n{data}\n\n")
+    send(data) #send msg to connected client
+    emit('some-event','this is a custom event message')
+
 if __name__ == "__main__":
-    app.run(debug=True) #always runs,debug to avoid restarting server while updating
+    socketio.run(app,debug=True) #always runs,debug to avoid restarting server while updating
