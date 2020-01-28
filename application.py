@@ -1,6 +1,7 @@
+from time import localtime, strftime
 from flask import Flask, render_template,redirect,url_for,flash 
 from flask_login import LoginManager,login_user,current_user,login_required,logout_user
-from flask_socketio import SocketIO,send,emit
+from flask_socketio import SocketIO,send,emit,join_room,leave_room
 from wtform_fields import *
 from models import *
 #Configure app
@@ -15,6 +16,7 @@ db = SQLAlchemy(app)
 
 #intialize flask-socketio
 socketio = SocketIO(app)
+ROOMS = ["Class","Games","News","Exam"]
 
 #configure flask login
 login = LoginManager(app)
@@ -62,7 +64,7 @@ def chat():
     #if not current_user.is_authenticated:
      #   flash('Please login.','danger')
       #  return redirect(url_for('login'))
-    return render_template('chat.html')
+    return render_template('chat.html',username = current_user.username,rooms=ROOMS)
 
 
 @app.route("/logout",methods=['GET'])
@@ -74,8 +76,18 @@ def logout():
 @socketio.on('message')
 def message(data):
     print(f"\n\n{data}\n\n")
-    send(data) #send msg to connected client
-    emit('some-event','this is a custom event message')
+    #send(data) #send msg to connected client
+    send({'msg': data['msg'], 'username':data['username'],'time_stamp':strftime('%b-%d %I:%M%p',localtime())},room=data['room'])
+
+@socketio.on('join')
+def join(data):
+    join_room(data['room'])
+    send({'msg':data['username'] + " has joined the " + data['room'] + " room."},room=data['room'])
+@socketio.on('leave')
+def leave(data):
+    leave_room(data['room'])
+    send({'msg':data['username'] + " has left the " + data['room'] + " room."},room=data['room'])
+
 
 if __name__ == "__main__":
     socketio.run(app,debug=True) #always runs,debug to avoid restarting server while updating
