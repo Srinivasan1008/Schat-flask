@@ -61,9 +61,9 @@ def login():
 @app.route("/chat",methods=['GET','POST'])
 #@login_required
 def chat():
-    #if not current_user.is_authenticated:
-     #   flash('Please login.','danger')
-      #  return redirect(url_for('login'))
+    if not current_user.is_authenticated:
+       flash('Please login.','danger')
+       return redirect(url_for('login'))
     return render_template('chat.html',username = current_user.username,rooms=ROOMS)
 
 
@@ -72,7 +72,6 @@ def logout():
     logout_user()
     flash('You have logged out successfully','success')
     return redirect(url_for('login'))
-
 @socketio.on('message')
 def message(data):
     print(f"\n\n{data}\n\n")
@@ -82,11 +81,11 @@ def message(data):
 @socketio.on('join')
 def join(data):
     join_room(data['room'])
-    send({'msg':data['username'] + " has joined the " + data['room'] + " room."},room=data['room'])
+    send({'msg':data['username'] + " has joined the " + data['room'] + " room." + "<article>"},room=data['room'])
 @socketio.on('leave')
 def leave(data):
     leave_room(data['room'])
-    send({'msg':data['username'] + " has left the " + data['room'] + " room."},room=data['room'])
+    send({'msg':data['username'] + " has left the " + data['room'] + " room." + "<article>"},room=data['room'])
 
 
 if __name__ == "__main__":

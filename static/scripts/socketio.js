@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
         socket.send("Iam connected");
         
     });*/
+
 //display incoming msg
     socket.on('message', data =>{
         //console.log(`Message  received: ${data}`)
@@ -18,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if(data.username){
         span_username.innerHTML = data.username;
         span_timestamp.innerHTML = data.time_stamp;
-        p.innerHTML =span_username.outerHTML +br.outerHTML + data.msg +br.outerHTML + span_timestamp.outerHTML;
+        p.innerHTML =span_username.outerHTML +br.outerHTML + data.msg +br.outerHTML + span_timestamp.outerHTML + "<article>";
         document.querySelector('#display-message-section').append(p);}
         else{
             printSysMsg(data.msg);
@@ -36,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //clear input area
         document.querySelector('#user_message').value='';
     }
+    
     //room selection
     document.querySelectorAll('.select-room').forEach(p => {
         p.onclick = () =>{
