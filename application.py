@@ -9,11 +9,11 @@ from models import *
 
 app = Flask(__name__) #instance(standards-webserver gateway interface)
 #app.config['SECRET_KEY'] = 'secret!'
-#app.config['SECRET_KEY'] = '�h8��n^TFi[�=�u'
-app.secret_key = os.environ.get('SECRET')
+app.config['SECRET_KEY'] = '�h8��n^TFi[�=�u'
+#app.secret_key = os.environ.get('SECRET')
 #configure db
-app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get('DATABASE_URL')
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://rsppnikzkjceam:c85b4480d3a6dd17538c11359ebca2e1b77e634c52e43777024da075dedba7c0@ec2-3-224-165-85.compute-1.amazonaws.com:5432/ddjrmcfnsr110v'
+#app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://rsppnikzkjceam:c85b4480d3a6dd17538c11359ebca2e1b77e634c52e43777024da075dedba7c0@ec2-3-224-165-85.compute-1.amazonaws.com:5432/ddjrmcfnsr110v'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -78,15 +78,10 @@ def logout():
 @socketio.on('message')
 def message(data):
     print(f"\n\n{data}\n\n")
-    msg = data["msg"]
-    username = data["username"]
-    room = data["room"]
-    # Set timestamp
-    time_stamp = time.strftime('%b-%d %I:%M%p', time.localtime())
-    send({"username": username, "msg": msg, "time_stamp": time_stamp}, room=room)
+  
 
     #send(data) #send msg to connected client
-    #send({'msg': data['msg'], 'username':data['username'],'time_stamp':strftime('%b-%d %I:%M%p',localtime())},room=data['room'])
+    send({'msg': data['msg'], 'username':data['username'],'time_stamp':strftime('%b-%d %I:%M%p',localtime())},room=data['room'])
 
 @socketio.on('join')
 def join(data):
@@ -99,5 +94,5 @@ def leave(data):
 
 
 if __name__ == "__main__":
-    #socketio.run(app,debug=True) #always runs,debug to avoid restarting server while updating
-    app.run(debug=true)
+    socketio.run(app,debug=True) #always runs,debug to avoid restarting server while updating
+    #app.run(debug=true)

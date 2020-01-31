@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //send message
 
     document.querySelector('#send_message').onclick = () => {
-        socket.emit({'msg': document.querySelector('#user_message').value,
+        socket.send({'msg': document.querySelector('#user_message').value,
         'username' : username,'room': room});
         //clear input area
         document.querySelector('#user_message').value='';
