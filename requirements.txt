@@ -78,7 +78,7 @@ sqlparse==0.2.4
 systemd-python==234
 
 
-unattended-upgrades==0.1
+
 urllib3==1.22
 usb-creator==0.3.3
 vboxapi==1.0
