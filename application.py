@@ -84,7 +84,7 @@ def message(data):
 @socketio.on('join')
 def join(data):
     join_room(data['room'])
-    send({'msg':data['username'] + " has joined the " + data['room'] + " room." },room=data['room'])
+    send({'msg':data['username'] + " has joined the " + data['room'] + " room." + "<article>"},room=data['room'])
 @socketio.on('leave')
 def leave(data):
     leave_room(data['room'])
