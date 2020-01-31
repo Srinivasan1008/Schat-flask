@@ -10,7 +10,7 @@ Click==7.0
 cryptography==2.1.4
 
 
-distro-info===0.18ubuntu0.18.04.1
+
 Django==1.11.11
 dnspython==1.16.0
 evdev==0.7.0
