@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     //var socket = io();
    socket.on('connect', () => {
         socket.send("Iam connected");
+        console.log("hihihi");
+
         
     });
 
