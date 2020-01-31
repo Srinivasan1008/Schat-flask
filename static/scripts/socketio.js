@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //display incoming msg
     socket.on('message', data =>{
-        //console.log(`Message  received: ${data}`)
+        console.log(`Message  received: ${data}`)
         const p = document.createElement('p');
         const span_username = document.createElement('span');
         const span_timestamp = document.createElement('span');
