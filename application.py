@@ -100,4 +100,4 @@ def leave(data):
 
 if __name__ == "__main__":
     #socketio.run(app,debug=True) #always runs,debug to avoid restarting server while updating
-    app.run()
+    app.run(debug=true)
