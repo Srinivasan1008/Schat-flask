@@ -63,14 +63,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function joinRoom(room){
         socket.emit('join',{'username': username,'room': room});
         //clear msg area
-        document.querySelector('#display-message-section').innerHTML =''
+        document.querySelector('#display-message-section').innerHTML ='';
         //autofocus on text box
         document.querySelector('#user_message').focus();
     }
+
     //print system message
     function printSysMsg(msg){
         const p = document.createElement('p');
+        p.setAttribute("class", "system-msg");
         p.innerHTML = msg;
         document.querySelector('#display-message-section').append(p);
+        
+
+        // Autofocus on text box
+        document.querySelector("#user_message").focus();
     }
 })
