@@ -3,10 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let room="Class";
     joinRoom("Class");
     //var socket = io();
-   /* socket.on('connect', () => {
+   socket.on('connect', () => {
         socket.send("Iam connected");
         
-    });*/
+    });
 
 //display incoming msg
     socket.on('message', data =>{
