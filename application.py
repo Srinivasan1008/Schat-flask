@@ -78,27 +78,20 @@ def logout():
 @socketio.on('message')
 def message(data):
     print(f"\n\n{data}\n\n")
-     msg = data["msg"]
-    username = data["username"]
-    room = data["room"]
-    time_stamp = time.strftime('%b-%d %I:%M%p', time.localtime())
+
     #send(data) #send msg to connected client
-    send({"msg": msg, "username":username,"time_stamp":time_stamp},room=room)
+    send({'msg': data['msg'], 'username':data['username'],'time_stamp':strftime('%b-%d %I:%M%p',localtime())},room=data['room'])
 
 @socketio.on('join')
 def join(data):
     print("hi")
-    username = data["username"]
-    room = data["room"]
-    join_room(room)
-    send({"msg":username + " has joined the " + room + " room." + "<article>"},room=room)
+    join_room(data['room'])
+    send({'msg':data['username'] + " has joined the " + data['room'] + " room." + "<article>"},room=data['room'])
 @socketio.on('leave')
 def leave(data):
     print("hi")
-    username = data['username']
-    room = data['room']
-    leave_room(room)
-    send({"msg": username + " has left the " + room + "room." + "<article>"} ,room=room)
+    leave_room(data['room'])
+    send({'msg':data['username'] + " has left the " + data['room'] + " room." + "<article>"},room=data['room'])
 
 
 if __name__ == "__main__":
