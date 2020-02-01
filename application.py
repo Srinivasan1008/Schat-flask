@@ -39,7 +39,6 @@ def index():
         password = reg_form.password.data
    #hash password
         hashed_pswd = pbkdf2_sha256.hash(password)#salts&iteration is taken care
-
         #add user to db
         user = User(username=username, password=hashed_pswd)
         db.session.add(user)
