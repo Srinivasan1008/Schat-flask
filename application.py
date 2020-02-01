@@ -78,7 +78,6 @@ def logout():
 @socketio.on('message')
 def message(data):
     print(f"\n\n{data}\n\n")
-
     #send(data) #send msg to connected client
     send({'msg': data["msg"], 'username':data["username"],'time_stamp':strftime('%b-%d %I:%M%p',localtime())},room=data["room"])
 
