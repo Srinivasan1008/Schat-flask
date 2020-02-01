@@ -83,7 +83,7 @@ def message(data):
 
 @socketio.on('join')
 def join(data):
-    print("hi")
+    #print("hi")
     join_room(data['room'])
     send({'msg':data['username'] + " has joined the " + data['room'] + " room." + "<article>"},room=data['room'])
 @socketio.on('leave')
