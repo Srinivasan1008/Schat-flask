@@ -86,12 +86,12 @@ def message(data):
 def join(data):
     print("hi")
     join_room(data['room'])
-    send({'msg':data['username'] + " has joined the " + data['room'] + " room." + "<article>"},room=data['room'])
+    send({'msg':data["username"] + " has joined the " + data["room"] + " room." + "<article>"},room=data["room"])
 @socketio.on('leave')
 def leave(data):
     print("hi")
     leave_room(data['room'])
-    send({'msg':data['username'] + " has left the " + data['room'] + " room." + "<article>"},room=data['room'])
+    send({'msg':data["username"] + " has left the " + data["room"] + " room." + "<article>"},room=data["room"])
 
 
 if __name__ == "__main__":
