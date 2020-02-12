@@ -11,7 +11,7 @@ cryptography==2.1.4
 
 
 
-Django==1.11.11
+Django==1.11.28
 dnspython==1.16.0
 evdev==0.7.0
 eventlet==0.25.1
